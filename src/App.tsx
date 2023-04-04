@@ -1,5 +1,14 @@
+import AlbumsList from './components/AlbumsList/AlbumsList';
+import { RecoilRoot } from 'recoil';
+
 function App() {
-  return <div>Hello</div>;
+  return (
+    <RecoilRoot>
+      <div>
+        <AlbumsList />
+      </div>
+    </RecoilRoot>
+  );
 }
 
 export default App;
