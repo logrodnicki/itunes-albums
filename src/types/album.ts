@@ -41,6 +41,9 @@ export interface Album {
       theme: string;
     };
   };
+  'im:itemCount': {
+    label: string;
+  };
 }
 
 export interface AlbumImage {

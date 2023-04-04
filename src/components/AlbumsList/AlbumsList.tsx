@@ -1,12 +1,15 @@
 import React, { ReactElement, useEffect, useRef } from 'react';
 import { ALBUMS_URL } from '@/api';
-import { Album, Response } from '@/types';
+import { Album as AlbumModel, Response } from '@/types';
 import { useRecoilState } from 'recoil';
 import { albumsState } from '@/state/albums';
 import { loadingMapState } from '@/state/loadingMap';
+import Album from '@/components/AlbumsList/Album/Album';
+
+import styles from './AlbumList.module.scss';
 
 const AlbumsList = (): ReactElement => {
-  const [albums, setAlbums] = useRecoilState<Album[]>(albumsState);
+  const [albums, setAlbums] = useRecoilState<AlbumModel[]>(albumsState);
   const [loadingMap, setLoadingMap] = useRecoilState(loadingMapState);
 
   const currentAbortController = useRef<AbortController | null>(null);
@@ -47,7 +50,17 @@ const AlbumsList = (): ReactElement => {
 
   return (
     <div>
-      <div>test {albums?.length}</div>
+      {loadingMap.albums ? (
+        <div className="spinner-border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      ) : (
+        <div className={`d-grid grid gap-3 ${styles['albums-grid']}`}>
+          {albums.map((album) => (
+            <Album key={album.id.attributes['im:id']} album={album} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
