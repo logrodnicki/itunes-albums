@@ -54,3 +54,7 @@ export interface AlbumImage {
 }
 
 export type AlbumImageHeight = '55' | '60' | '170';
+
+export interface AlbumsFilters {
+  searchText?: string;
+}
