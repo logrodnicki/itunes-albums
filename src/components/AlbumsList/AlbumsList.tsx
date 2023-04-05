@@ -1,4 +1,12 @@
-import React, { ChangeEvent, ReactElement, useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  ChangeEvent,
+  ReactElement,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState
+} from 'react';
 import { ALBUMS_URL } from '@/api';
 import { Album as AlbumModel, Response } from '@/types';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -6,8 +14,11 @@ import { albumsFiltersState, albumsState, filteredAlbumsState } from '@/state/al
 import { loadingMapState } from '@/state/loadingMap';
 import Album from '@/components/AlbumsList/Album/Album';
 import { debounce as _debounce } from 'lodash';
+import AlbumPlaceholder from '@/components/AlbumsList/Album/AlbumPlaceholder/AlbumPlaceholder';
 
 import styles from './AlbumList.module.scss';
+
+const PLACEHOLDER_AMOUNT = 12;
 
 const AlbumsList = (): ReactElement => {
   const [albums, setAlbums] = useRecoilState<AlbumModel[]>(albumsState);
@@ -20,6 +31,16 @@ const AlbumsList = (): ReactElement => {
 
   useEffect(() => {
     fetchAlbums();
+  }, []);
+
+  const placeholderArray = useMemo(() => {
+    const array: number[] = [];
+
+    for (let i = 0; i < PLACEHOLDER_AMOUNT; i++) {
+      array.push(i);
+    }
+
+    return array;
   }, []);
 
   const fetchAlbums = async (): Promise<void> => {
@@ -85,17 +106,21 @@ const AlbumsList = (): ReactElement => {
           />
         </div>
       </div>
-      {loadingMap.albums ? (
-        <div className="spinner-border" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </div>
-      ) : (
-        <div className={`d-grid grid gap-3 ${styles['albums-grid']}`}>
-          {filteredAlbums.map((album) => (
-            <Album key={album.id.attributes['im:id']} album={album} />
-          ))}
-        </div>
-      )}
+      <div className={`d-grid grid gap-3 ${styles['albums-grid']}`}>
+        {loadingMap.albums ? (
+          <>
+            {placeholderArray.map((value) => (
+              <AlbumPlaceholder key={value} />
+            ))}
+          </>
+        ) : (
+          <>
+            {filteredAlbums.map((album) => (
+              <Album key={album.id.attributes['im:id']} album={album} />
+            ))}
+          </>
+        )}
+      </div>
     </div>
   );
 };
