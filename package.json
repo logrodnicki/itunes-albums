@@ -11,7 +11,8 @@
     "eslint:fix": "eslint ./src --fix",
     "prettier": "prettier --check './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
     "prettier:fix": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
-    "test:static": "npm run eslint && npm run prettier"
+    "test:static": "npm run eslint && npm run prettier",
+    "test": "vitest"
   },
   "dependencies": {
     "bootstrap": "^5.2.3",
@@ -24,6 +25,8 @@
     "recoil": "^0.7.7"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^14.0.0",
     "@types/bootstrap": "^5.2.6",
     "@types/lodash": "^4.14.192",
     "@types/node": "^18.15.11",
@@ -37,9 +40,11 @@
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.32.2",
+    "jsdom": "^21.1.1",
     "prettier": "^2.8.7",
     "sass": "^1.60.0",
     "typescript": "^4.9.3",
-    "vite": "^4.2.0"
+    "vite": "^4.2.0",
+    "vitest": "^0.29.8"
   }
 }

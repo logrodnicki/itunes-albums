@@ -1,0 +1,8 @@
+.toggle-button {
+  transition: transform 300ms ease-in-out;
+  display: block;
+
+  &.rotate {
+    transform: rotateZ(180deg);
+  }
+}
