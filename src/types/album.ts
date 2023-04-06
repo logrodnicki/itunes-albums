@@ -38,7 +38,7 @@ export interface Album {
       'im:id': string;
       label: string;
       scheme: string;
-      theme: string;
+      term: string;
     };
   };
   'im:itemCount': {
@@ -57,4 +57,5 @@ export type AlbumImageHeight = '55' | '60' | '170';
 
 export interface AlbumsFilters {
   searchText?: string;
+  categories?: string[];
 }

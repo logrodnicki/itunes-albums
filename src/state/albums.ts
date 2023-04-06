@@ -13,7 +13,8 @@ export const albumsState = atom<Album[]>({
 export const albumsFiltersState = atom<AlbumsFilters>({
   key: ALBUMS_FILTERS_KEY,
   default: {
-    searchText: ''
+    searchText: '',
+    categories: []
   }
 });
 
@@ -23,12 +24,26 @@ export const filteredAlbumsState = selector({
     const albums = get(albumsState);
     const filters = get(albumsFiltersState);
 
-    if (!filters.searchText) {
+    if (!filters.searchText && filters.categories?.length === 0) {
       return albums;
     }
 
-    return albums.filter((album) =>
-      album.title.label.toLowerCase().includes(filters.searchText?.toLowerCase() as string)
-    );
+    return albums
+      .filter((album) => {
+        if (filters.categories?.length === 0) {
+          return true;
+        }
+
+        return filters.categories?.includes(album.category.attributes.term);
+      })
+      .filter((album) => {
+        if (!filters.searchText) {
+          return true;
+        }
+
+        return album.title.label
+          .toLowerCase()
+          .includes(filters.searchText?.toLowerCase() as string);
+      });
   }
 });
